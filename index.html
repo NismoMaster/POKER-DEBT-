@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="ru"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#070814">
+    <title>POKER DEBT</title>
+    <style>
+        :root {
+            --bg-deep: #070814;
+            --bg-glass: rgba(18, 21, 42, 0.88);
+            --cyan: #00f2fe;
+            --purple: #b535f6;
+            --magenta: #ff2a85;
+            --lime: #ccff00;
+            --emerald: #00ff9d;
+            --coral: #ff4757;
+            --amber: #ffbe0b;
+            --text-white: #ffffff;
+            --text-dim: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            background-color: #070814;
+            background-image:
+                radial-gradient(circle at 18% 10%, rgba(181, 53, 246, 0.25) 0%, transparent 42%),
+                radial-gradient(circle at 82% 15%, rgba(0, 242, 254, 0.22) 0%, transparent 45%),
+                radial-gradient(circle at 50% 88%, rgba(0, 255, 157, 0.14) 0%, transparent 50%),
+                radial-gradient(circle at 85% 65%, rgba(181, 53, 246, 0.18) 0%, transparent 45%),
+                linear-gradient(180deg, #060711 0%, #0b0d20 55%, #060711 100%);
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-text-size-adjust: 100%;
+            padding-bottom: 40px;
+            overflow-x: hidden;
+        }
+
+        .cyber-bg-decor {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            z-index: 5;
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 14px 16px 32px;
+        }
+
+        .neon-logo-wrap {
+            text-align: center;
+            margin: 6px 0 18px;
+        }
+
+        .neon-logo {
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            display: inline-block;
+            color: #00f2fe;
+            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 35%, #b535f6 70%, #ff2a85 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.55)) drop-shadow(0 0 22px rgba(181, 53, 246, 0.45));
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .neon-logo-sm {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            display: inline-block;
+            color: #00f2fe;
+            background: linear-gradient(90deg, #00f2fe 0%, #b535f6 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.5));
+        }
+
+        .btn-reset-pill {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(0, 242, 254, 0.45);
+            color: #e2e8f0;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 0 12px rgba(0, 242, 254, 0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            touch-action: manipulation;
+        }
+        .btn-reset-pill:active { transform: scale(0.95); }
+
+        .pill-stepper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(180deg, rgba(30, 35, 66, 0.88) 0%, rgba(16, 19, 38, 0.94) 100%);
+            border: 1.5px solid rgba(148, 163, 184, 0.35);
+            border-radius: 999px;
+            padding: 8px 10px;
+            margin-bottom: 14px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.18), 0 0 15px rgba(0, 242, 254, 0.08);
+        }
+
+        .circle-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(55, 65, 110, 0.95), rgba(18, 22, 44, 0.98));
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            user-select: none;
+            touch-action: manipulation;
+            flex-shrink: 0;
+        }
+        .circle-btn:active {
+            transform: scale(0.92);
+            border-color: #00f2fe;
+            color: #00f2fe;
+        }
+
+        .pill-center-text {
+            font-size: 17px;
+            font-weight: 700;
+            color: #ffffff;
+            text-align: center;
+            letter-spacing: 0.2px;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+            flex: 1;
+            padding: 0 6px;
+        }
+
+        .pill-center-val {
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .names-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0 26px;
+        }
+
+        .name-pill-wrap {
+            position: relative;
+            border-radius: 20px;
+            padding: 2px;
+        }
+
+        .name-pill-wrap.neon-purple {
+            background: linear-gradient(135deg, #b535f6 0%, #6366f1 50%, #ff2a85 100%);
+            box-shadow: 0 0 16px rgba(181, 53, 246, 0.42), inset 0 0 8px rgba(181, 53, 246, 0.3);
+        }
+
+        .name-pill-wrap.neon-cyan {
+            background: linear-gradient(135deg, #00f2fe 0%, #00ff9d 55%, #4facfe 100%);
+            box-shadow: 0 0 16px rgba(0, 242, 254, 0.42), inset 0 0 8px rgba(0, 242, 254, 0.3);
+        }
+
+        .name-pill-input {
+            width: 100%;
+            height: 54px;
+            background: rgba(14, 17, 36, 0.94);
+            border: none;
+            border-radius: 18px;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 800;
+            text-align: center;
+            outline: none;
+            padding: 0 10px;
+            letter-spacing: 0.3px;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.65);
+        }
+
+        .btn-cyber-main {
+            width: 100%;
+            height: 60px;
+            border: none;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #d4ff00 0%, #38f9d7 55%, #00f2fe 100%);
+            color: #050811;
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 0 28px rgba(56, 249, 215, 0.65), 0 6px 20px rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            touch-action: manipulation;
+        }
+        .btn-cyber-main:active { transform: scale(0.97); }
+
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(6, 7, 17, 0.88);
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+        }
+        .modal-backdrop.show { display: flex; }
+
+        .cyber-modal {
+            width: 100%;
+            max-width: 400px;
+            background: linear-gradient(180deg, rgba(28, 33, 68, 0.96) 0%, rgba(14, 17, 36, 0.98) 100%);
+            border: 1.5px solid rgba(181, 53, 246, 0.65);
+            border-radius: 28px;
+            padding: 26px 22px 22px;
+            text-align: center;
+            box-shadow: 0 0 35px rgba(181, 53, 246, 0.4), 0 20px 50px rgba(0, 0, 0, 0.85);
+        }
+
+        .neon-chip-badge {
+            width: 78px;
+            height: 78px;
+            margin: 0 auto 14px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-heading {
+            font-size: 23px;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .modal-desc {
+            font-size: 14px;
+            line-height: 1.55;
+            color: #cbd5e1;
+            margin-bottom: 18px;
+        }
+
+        .cyber-check-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 22px;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .cyber-check-label input {
+            width: 20px;
+            height: 20px;
+            accent-color: #b535f6;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .modal-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .btn-glass-sec {
+            height: 48px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.09);
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .btn-neon-blue {
+            height: 48px;
+            border-radius: 999px;
+            border: none;
+            background: linear-gradient(90deg, #00f2fe 0%, #7b2ff7 100%);
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.55);
+            touch-action: manipulation;
+        }
+
+        .timer-bar-card {
+            background: linear-gradient(180deg, rgba(24, 29, 58, 0.92) 0%, rgba(14, 18, 38, 0.96) 100%);
+            border: 1.5px solid rgba(0, 242, 254, 0.4);
+            border-radius: 20px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+        }
+
+        .timer-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .digital-timer {
+            font-family: "Courier New", Courier, monospace;
+            font-size: 28px;
+            font-weight: 900;
+            color: #e0f2fe;
+            letter-spacing: 1.5px;
+        }
+
+        .bank-pill-summary { text-align: right; }
+        .bank-pill-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: #94a3b8; font-weight: 700; }
+        .bank-pill-val { font-size: 20px; font-weight: 900; color: #00ff9d; }
+
+        .btn-finish-party {
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: 14px;
+            background: linear-gradient(90deg, rgba(255, 42, 133, 0.25) 0%, rgba(181, 53, 246, 0.25) 100%);
+            border: 1.5px solid #ff2a85;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .btn-add-player-bar {
+            width: 100%;
+            height: 42px;
+            border-radius: 14px;
+            background: rgba(20, 25, 50, 0.88);
+            border: 1.5px solid rgba(0, 242, 254, 0.4);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            touch-action: manipulation;
+        }
+
+        .table-header-strip {
+            display: grid;
+            grid-template-columns: 1.15fr 1.15fr 1.35fr 72px;
+            gap: 6px;
+            padding: 7px 10px;
+            background: rgba(15, 19, 40, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+
+        .players-list-wrap { display: flex; flex-direction: column; gap: 7px; }
+        .players-list-wrap.compact { gap: 5px; }
+
+        .cyber-player-card {
+            display: grid;
+            grid-template-columns: 1.15fr 1.15fr 1.35fr 72px;
+            gap: 6px;
+            align-items: center;
+            background: linear-gradient(90deg, rgba(22, 27, 54, 0.94) 0%, rgba(16, 20, 42, 0.96) 100%);
+            border: 1px solid rgba(0, 242, 254, 0.28);
+            border-radius: 14px;
+            padding: 8px 10px;
+        }
+
+        .players-list-wrap.compact .cyber-player-card {
+            padding: 6px 8px;
+            border-radius: 12px;
+        }
+
+        .p-col-name {
+            font-size: 15px;
+            font-weight: 800;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .players-list-wrap.compact .p-col-name { font-size: 14px; }
+
+        .p-col-bank { text-align: center; line-height: 1.15; }
+        .p-bank-rub { font-size: 19px; font-weight: 900; color: #00f2fe; display: block; }
+        .players-list-wrap.compact .p-bank-rub { font-size: 17px; }
+        .p-bank-bays { font-size: 11px; font-weight: 700; color: #cbd5e1; }
+
+        .p-col-rebuy { display: flex; align-items: center; gap: 5px; }
+
+        .btn-minus-sm {
+            width: 28px;
+            height: 36px;
+            border-radius: 9px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            color: #e2e8f0;
+            font-size: 16px;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            touch-action: manipulation;
+        }
+
+        .btn-rebuy-neon {
+            flex: 1;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.22) 0%, rgba(181, 53, 246, 0.32) 100%);
+            border: 1.5px solid #00f2fe;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 900;
+            line-height: 1.1;
+            text-align: center;
+            cursor: pointer;
+            padding: 2px 4px;
+            touch-action: manipulation;
+        }
+        .btn-rebuy-neon:disabled, .btn-minus-sm:disabled { opacity: 0.35; pointer-events: none; }
+
+        .p-col-chips { position: relative; width: 72px; height: 36px; }
+
+        .locked-chip-btn {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            background: rgba(10, 13, 28, 0.94);
+            border: 1.5px solid rgba(255, 190, 11, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            touch-action: manipulation;
+        }
+
+        .unlocked-chip-input {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            background: rgba(10, 14, 30, 0.98);
+            border: 1.5px solid #00f2fe;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 900;
+            text-align: center;
+            outline: none;
+        }
+
+        @keyframes slowNeonPulse {
+            0% { border-color: #00f2fe; box-shadow: 0 0 4px rgba(0, 242, 254, 0.3); }
+            50% { border-color: #ccff00; box-shadow: 0 0 14px rgba(204, 255, 0, 0.75); }
+            100% { border-color: #00f2fe; box-shadow: 0 0 4px rgba(0, 242, 254, 0.3); }
+        }
+
+        .unlocked-chip-input.blinking { animation: slowNeonPulse 1.6s infinite ease-in-out; }
+        .unlocked-chip-input.filled { border-color: #00ff9d; color: #00ff9d; }
+
+        .btn-back-chips {
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #e2e8f0;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 12px;
+            touch-action: manipulation;
+        }
+
+        .discrepancy-alert {
+            background: rgba(255, 190, 11, 0.16);
+            border: 1.5px solid #ffbe0b;
+            border-radius: 16px;
+            padding: 12px 14px;
+            font-size: 13px;
+            line-height: 1.45;
+            color: #fde68a;
+            margin-bottom: 14px;
+        }
+
+        .mvp-cyber-banner {
+            background: linear-gradient(135deg, rgba(16, 24, 52, 0.95) 0%, rgba(28, 18, 56, 0.95) 100%);
+            border: 2px solid #00f2fe;
+            border-radius: 20px;
+            padding: 16px;
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .mvp-label {
+            font-size: 13px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #00ff9d;
+            margin-bottom: 6px;
+        }
+
+        .mvp-main-line { font-size: 21px; font-weight: 900; color: #ffffff; }
+        .mvp-profit-highlight { color: #ffbe0b; }
+
+        .dashboard-two-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .dash-box-win {
+            background: rgba(6, 48, 38, 0.85);
+            border: 1.5px solid #00ff9d;
+            border-radius: 18px;
+            padding: 12px;
+        }
+
+        .dash-box-loss {
+            background: rgba(56, 16, 28, 0.85);
+            border: 1.5px solid #ff4757;
+            border-radius: 18px;
+            padding: 12px;
+        }
+
+        .dash-title-win { font-size: 12px; font-weight: 900; color: #00ff9d; text-transform: uppercase; margin-bottom: 10px; }
+        .dash-title-loss { font-size: 12px; font-weight: 900; color: #ff4757; text-transform: uppercase; margin-bottom: 10px; }
+
+        .dash-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 800;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .dash-row:last-child { border-bottom: none; }
+
+        .transfers-card {
+            background: rgba(18, 21, 42, 0.9);
+            border: 1.5px solid rgba(0, 242, 254, 0.35);
+            border-radius: 22px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .transfers-heading {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 900;
+            color: #00f2fe;
+            margin-bottom: 12px;
+        }
+
+        .transfer-pill {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(24, 22, 52, 0.94);
+            border: 1.5px solid rgba(181, 53, 246, 0.6);
+            border-radius: 999px;
+            padding: 11px 18px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .transfer-pill.done {
+            opacity: 0.4;
+            text-decoration: line-through;
+            border-color: #00ff9d;
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            background: #00ff9d;
+            color: #050811;
+            font-weight: 900;
+            font-size: 13px;
+            padding: 12px 22px;
+            border-radius: 999px;
+            transition: transform 0.25s ease;
+            z-index: 200;
+            white-space: nowrap;
+        }
+        .toast-msg.show { transform: translateX(-50%) translateY(0); }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] { -moz-appearance: textfield; }
+    </style>
+</head>
+<body>
+    <div class="cyber-bg-decor">
+        <svg style="position:absolute; top:-20px; left:-35px; width:170px; height:170px; opacity:0.18;" viewBox="0 0 200 200" fill="none">
+            <path d="M100 25 C60 75 30 105 30 135 C30 160 55 175 80 165 C90 160 95 150 100 140 C105 150 110 160 120 165 C145 175 170 160 170 135 C170 105 140 75 100 25 Z" stroke="#b535f6" stroke-width="4"></path>
+        </svg>
+        <svg style="position:absolute; top:-15px; right:-35px; width:180px; height:180px; opacity:0.2;" viewBox="0 0 200 200" fill="none">
+            <circle cx="100" cy="100" r="75" stroke="#00f2fe" stroke-width="4"></circle>
+            <circle cx="100" cy="100" r="55" stroke="#00f2fe" stroke-width="3" stroke-dasharray="14 10"></circle>
+        </svg>
+    </div>
+
+    <div class="container">
+        <!-- ЭКРАН 1: НАСТРОЙКА ПАРТИИ -->
+        <section id="screen1" class="screen active">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:2px;">
+                <button type="button" id="btnDownloadHtml" class="btn-reset-pill" style="border-color: rgba(0, 255, 157, 0.55); color: #00ff9d;">📲 Скачать HTML</button>
+                <button type="button" id="btnResetDefaults" class="btn-reset-pill">🔄 Сбросить</button>
+            </div>
+            <div class="neon-logo-wrap"><div class="neon-logo">POKER DEBT</div></div>
+
+            <div class="pill-stepper">
+                <button type="button" id="btnStackMinus" class="circle-btn">−</button>
+                <div class="pill-center-text">Цена стека: <span id="valStackRub" class="pill-center-val">500</span> ₽</div>
+                <button type="button" id="btnStackPlus" class="circle-btn">+</button>
+            </div>
+
+            <div class="pill-stepper">
+                <button type="button" id="btnChipsMinus" class="circle-btn">−</button>
+                <div class="pill-center-text">Фишек за 1 бай: <span id="valChipsPerBuy" class="pill-center-val">500</span></div>
+                <button type="button" id="btnChipsPlus" class="circle-btn">+</button>
+            </div>
+
+            <div class="pill-stepper">
+                <button type="button" id="btnPlayersMinus" class="circle-btn">−</button>
+                <div class="pill-center-text">Игроков за столом: <span id="valPlayerCount" class="pill-center-val">8</span></div>
+                <button type="button" id="btnPlayersPlus" class="circle-btn">+</button>
+            </div>
+
+            <div id="namesGrid" class="names-grid"><div class="name-pill-wrap neon-purple"><input type="text" data-pidx="0" id="name_inp_0" class="name-pill-input" value="Матвей"></div><div class="name-pill-wrap neon-cyan"><input type="text" data-pidx="1" id="name_inp_1" class="name-pill-input" value="Егор"></div><div class="name-pill-wrap neon-cyan"><input type="text" data-pidx="2" id="name_inp_2" class="name-pill-input" value="Саша"></div><div class="name-pill-wrap neon-purple"><input type="text" data-pidx="3" id="name_inp_3" class="name-pill-input" value="Ваня"></div><div class="name-pill-wrap neon-purple"><input type="text" data-pidx="4" id="name_inp_4" class="name-pill-input" value="Данил"></div><div class="name-pill-wrap neon-cyan"><input type="text" data-pidx="5" id="name_inp_5" class="name-pill-input" value="Влад"></div><div class="name-pill-wrap neon-cyan"><input type="text" data-pidx="6" id="name_inp_6" class="name-pill-input" value="Серёга"></div><div class="name-pill-wrap neon-purple"><input type="text" data-pidx="7" id="name_inp_7" class="name-pill-input" value="Артур"></div></div>
+
+            <button type="button" id="btnStartGame" class="btn-cyber-main">НАЧАТЬ ИГРУ</button>
+        </section>
+
+        <!-- ЭКРАН 3: АКТИВНАЯ ИГРА -->
+        <section id="screen3" class="screen">
+            <div class="top-bar">
+                <div class="neon-logo-sm">POKER DEBT</div>
+                <button type="button" id="btnOpenResetGame" class="btn-reset-pill">🔄 Новая игра</button>
+            </div>
+            <div class="timer-bar-card">
+                <div class="timer-top-row">
+                    <div>
+                        <div style="font-size:10px; color:#94a3b8; text-transform:uppercase; font-weight:700;">Время партии</div>
+                        <div id="timerText" class="digital-timer">00:00:00</div>
+                    </div>
+                    <div class="bank-pill-summary">
+                        <div class="bank-pill-lbl">Общий банк</div>
+                        <div id="totalBankHeader" class="bank-pill-val">4 000 ₽</div>
+                        <div id="totalBaysHeader" style="font-size:11px; color:#cbd5e1; font-weight:700;">8 баев (4 000 фишек)</div>
+                    </div>
+                </div>
+                <button type="button" id="btnFinishParty" class="btn-finish-party">Завершить партию. Ввести количество фишек</button>
+            </div>
+
+            <button type="button" id="btnOpenAddPlayer" class="btn-add-player-bar">
+                <span style="color:#00f2fe; font-size:18px;">⊕</span> Добавить игрока
+            </button>
+
+            <div class="table-header-strip">
+                <div>Игрок</div>
+                <div style="text-align:center;">В банке</div>
+                <div style="text-align:center;">Ребай</div>
+                <div style="text-align:center;">Фишки</div>
+            </div>
+
+            <div id="activePlayersList" class="players-list-wrap"></div>
+
+            <div id="calcButtonWrap" style="display:none; margin-top:16px;">
+                <button type="button" id="btnCalculateResults" class="btn-cyber-main">Произвести расчеты</button>
+            </div>
+        </section>
+
+        <!-- ЭКРАН 4: ИТОГИ ВЕЧЕРА -->
+        <section id="screen4" class="screen">
+            <div class="top-bar">
+                <div class="neon-logo-sm">POKER DEBT</div>
+                <button type="button" id="btnOpenResetResults" class="btn-reset-pill">🔄 Новая игра</button>
+            </div>
+            <button type="button" id="btnBackToChips" class="btn-back-chips">‹ Вернуться к заполнению кол-ва фишек</button>
+            <div id="discrepancyBox" class="discrepancy-alert" style="display:none;"></div>
+            <div class="mvp-cyber-banner">
+                <div class="mvp-label">MVP ВЕЧЕРА:</div>
+                <div id="mvpMainText" class="mvp-main-line">—</div>
+            </div>
+            <div class="dashboard-two-cols">
+                <div class="dash-box-win"><div class="dash-title-win">ТОП-3 ЛИДЕРА:</div><div id="top3WinnersList"></div></div>
+                <div class="dash-box-loss"><div class="dash-title-loss">В МИНУСЕ (ПРОИГРАЛИ):</div><div id="losersList"></div></div>
+            </div>
+            <div class="transfers-card"><div class="transfers-heading">Кто кому переводит</div><div id="transfersContainer"></div></div>
+            <button type="button" id="btnCopyReport" class="btn-cyber-main">СКОПИРОВАТЬ ОТЧЕТ</button>
+        </section>
+    </div>
+
+    <!-- МОДАЛКИ -->
+    <div id="modalInfoStart" class="modal-backdrop">
+        <div class="cyber-modal">
+            <div class="neon-chip-badge">
+                <svg viewBox="0 0 100 100" width="76" height="76">
+                    <circle cx="50" cy="50" r="44" fill="none" stroke="#00f2fe" stroke-width="5"></circle>
+                    <circle cx="50" cy="50" r="32" fill="none" stroke="#b535f6" stroke-width="4" stroke-dasharray="12 8"></circle>
+                    <circle cx="50" cy="50" r="18" fill="none" stroke="#00f2fe" stroke-width="3"></circle>
+                </svg>
+            </div>
+            <div class="modal-heading">Партия началась!</div>
+            <div class="modal-desc">Не забывай фиксировать ребай игроков во время игры. После завершения партии необходимо ввести точное количество фишек у каждого игрока.</div>
+            <label class="cyber-check-label"><input type="checkbox" id="chkSkipInfo"><span>Больше не показывать данное уведомление</span></label>
+            <div class="modal-actions">
+                <button type="button" id="btnModalInfoBack" class="btn-glass-sec">Назад</button>
+                <button type="button" id="btnModalInfoStart" class="btn-neon-blue">Начать игру</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalFinishConfirm" class="modal-backdrop">
+        <div class="cyber-modal">
+            <div class="modal-heading" style="font-size:20px;">Партия завершена, приступаем к вводу фишек?</div>
+            <div class="modal-desc">Таймер остановится, а поля для ввода финального количества фишек разблокируются. Если у игрока 0 фишек — впишите 0.</div>
+            <div class="modal-actions">
+                <button type="button" id="btnContinueGame" class="btn-glass-sec">Продолжить игру</button>
+                <button type="button" id="btnConfirmUnlockChips" class="btn-neon-blue">Да</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAddPlayer" class="modal-backdrop">
+        <div class="cyber-modal">
+            <div class="modal-heading" style="font-size:20px;">Добавить игрока за стол</div>
+            <div class="modal-desc">Игроку автоматически начислится 1 стартовый бай. Таймер и баи остальных не сбрасываются.</div>
+            <input type="text" id="inpLatePlayerName" class="name-pill-input" placeholder="Имя игрока..." style="margin-bottom:16px; border:1.5px solid #00f2fe;">
+            <div class="modal-actions">
+                <button type="button" id="btnCancelAddPlayer" class="btn-glass-sec">Отмена</button>
+                <button type="button" id="btnConfirmAddPlayer" class="btn-neon-blue">Добавить</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalResetConfirm" class="modal-backdrop">
+        <div class="cyber-modal">
+            <div class="modal-heading" style="font-size:20px;">Сбросить игру и начать заново?</div>
+            <div class="modal-desc">Текущий таймер, ребаи и введённые фишки будут сброшены, и вы вернётесь в окно настройки партии.</div>
+            <div class="modal-actions">
+                <button type="button" id="btnCancelReset" class="btn-glass-sec">Отмена</button>
+                <button type="button" id="btnConfirmReset" class="btn-neon-blue">Сбросить</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast-msg">Файл POKER_DEBT.html сохранён в Загрузки!</div>
+
+    <script>
+        (function() {
+            var PRESET_NAMES = ['Матвей', 'Егор', 'Саша', 'Ваня', 'Данил', 'Влад', 'Серёга', 'Артур', 'Игрок 9', 'Игрок 10'];
+            var setupConfig = { stackRub: 500, chipsPerBuy: 500, playerCount: 8, names: PRESET_NAMES.slice() };
+            var party = { stackRub: 500, chipsPerBuy: 500, players: [], seconds: 0, timerId: null, unlocked: false, skipInfoModal: false, paidMap: {} };
+            var toastTimer = null;
+
+            function $(id) { return document.getElementById(id); }
+
+            function fmt(n) {
+                return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+            }
+
+            function pad2(num) { return num < 10 ? '0' + num : '' + num; }
+
+            function formatTime(sec) {
+                var h = Math.floor(sec / 3600);
+                var m = Math.floor((sec % 3600) / 60);
+                var s = sec % 60;
+                return pad2(h) + ':' + pad2(m) + ':' + pad2(s);
+            }
+
+            function showToast(text) {
+                var t = $('toast');
+                if (!t) return;
+                t.textContent = text;
+                t.className = 'toast-msg show';
+                if (toastTimer) clearTimeout(toastTimer);
+                toastTimer = setTimeout(function() { t.className = 'toast-msg'; }, 2400);
+            }
+
+            function openModal(id) {
+                var el = $(id);
+                if (el) el.className = 'modal-backdrop show';
+            }
+
+            function closeModal(id) {
+                var el = $(id);
+                if (el) el.className = 'modal-backdrop';
+            }
+
+            function switchScreen(screenId) {
+                var screens = document.querySelectorAll('.screen');
+                for (var i = 0; i < screens.length; i++) screens[i].className = 'screen';
+                var target = $(screenId);
+                if (target) target.className = 'screen active';
+                try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) {
+                    try { window.scrollTo(0, 0); } catch (e2) {}
+                }
+            }
+
+            function saveCurrentEditedNames() {
+                for (var i = 0; i < setupConfig.playerCount; i++) {
+                    var el = $('name_inp_' + i);
+                    if (el && el.value && el.value.trim()) {
+                        setupConfig.names[i] = el.value.trim();
+                    }
+                }
+            }
+
+            function updateSetup(field, delta) {
+                saveCurrentEditedNames();
+                if (field === 'stackRub') setupConfig.stackRub = Math.max(50, setupConfig.stackRub + delta);
+                else if (field === 'chipsPerBuy') setupConfig.chipsPerBuy = Math.max(50, setupConfig.chipsPerBuy + delta);
+                else if (field === 'playerCount') setupConfig.playerCount = Math.min(10, Math.max(2, setupConfig.playerCount + delta));
+                renderScreen1();
+            }
+
+            function resetSetupDefaults() {
+                setupConfig = { stackRub: 500, chipsPerBuy: 500, playerCount: 8, names: PRESET_NAMES.slice() };
+                try { if (window.localStorage) localStorage.removeItem('poker_debt_skip_info'); } catch (e) {}
+                party.skipInfoModal = false;
+                renderScreen1();
+                showToast('Настройки сброшены по умолчанию');
+            }
+
+            function renderScreen1() {
+                $('valStackRub').textContent = setupConfig.stackRub;
+                $('valChipsPerBuy').textContent = setupConfig.chipsPerBuy;
+                $('valPlayerCount').textContent = setupConfig.playerCount;
+                var grid = $('namesGrid');
+                var html = '';
+                for (var i = 0; i < setupConfig.playerCount; i++) {
+                    var row = Math.floor(i / 2);
+                    var col = i % 2;
+                    var neonClass = ((row + col) % 2 === 0) ? 'neon-purple' : 'neon-cyan';
+                    var val = setupConfig.names[i] || ('Игрок ' + (i + 1));
+                    html += '<div class="name-pill-wrap ' + neonClass + '"><input type="text" data-pidx="' + i + '" id="name_inp_' + i + '" class="name-pill-input" value="' + val + '"></div>';
+                }
+                grid.innerHTML = html;
+
+                var inputs = grid.querySelectorAll('.name-pill-input');
+                for (var j = 0; j < inputs.length; j++) {
+                    inputs[j].addEventListener('change', function(ev) {
+                        var idx = parseInt(ev.target.getAttribute('data-pidx'), 10);
+                        setupConfig.names[idx] = (ev.target.value && ev.target.value.trim()) ? ev.target.value.trim() : ('Игрок ' + (idx + 1));
+                    });
+                }
+            }
+
+            function handleStartClick() {
+                saveCurrentEditedNames();
+                try {
+                    if (window.localStorage && localStorage.getItem('poker_debt_skip_info') === '1') {
+                        party.skipInfoModal = true;
+                    }
+                } catch (e) {}
+                if (party.skipInfoModal) {
+                    startPartySession();
+                } else {
+                    $('chkSkipInfo').checked = false;
+                    openModal('modalInfoStart');
+                }
+            }
+
+            function confirmInfoAndStart() {
+                var skip = $('chkSkipInfo').checked;
+                if (skip) {
+                    party.skipInfoModal = true;
+                    try { if (window.localStorage) localStorage.setItem('poker_debt_skip_info', '1'); } catch (e) {}
+                }
+                closeModal('modalInfoStart');
+                startPartySession();
+            }
+
+            function startPartySession() {
+                party.stackRub = setupConfig.stackRub;
+                party.chipsPerBuy = setupConfig.chipsPerBuy;
+                party.unlocked = false;
+                party.seconds = 0;
+                party.paidMap = {};
+                party.players = [];
+                for (var i = 0; i < setupConfig.playerCount; i++) {
+                    party.players.push({
+                        id: 'p_' + i + '_' + (new Date().getTime()),
+                        name: setupConfig.names[i] || ('Игрок ' + (i + 1)),
+                        buys: 1,
+                        chips: null
+                    });
+                }
+                if (party.timerId) clearInterval(party.timerId);
+                party.timerId = setInterval(function() {
+                    party.seconds++;
+                    $('timerText').textContent = formatTime(party.seconds);
+                }, 1000);
+                $('timerText').textContent = '00:00:00';
+                switchScreen('screen3');
+                renderScreen3();
+            }
+
+            function renderScreen3() {
+                var totalBays = 0;
+                for (var i = 0; i < party.players.length; i++) totalBays += party.players[i].buys;
+                var totalRub = totalBays * party.stackRub;
+                var expectedChips = totalBays * party.chipsPerBuy;
+
+                $('totalBankHeader').textContent = fmt(totalRub) + ' ₽';
+                $('totalBaysHeader').textContent = totalBays + ' баев (' + fmt(expectedChips) + ' фишек)';
+
+                var btnFinish = $('btnFinishParty');
+                if (party.unlocked) {
+                    btnFinish.textContent = '🔓 Ввод фишек открыт — заполните все поля ниже';
+                    btnFinish.style.borderColor = '#00ff9d';
+                } else {
+                    btnFinish.textContent = 'Завершить партию. Ввести количество фишек';
+                    btnFinish.style.borderColor = '#ff2a85';
+                }
+
+                var listEl = $('activePlayersList');
+                listEl.className = party.players.length >= 8 ? 'players-list-wrap compact' : 'players-list-wrap';
+                var rows = [];
+                for (var j = 0; j < party.players.length; j++) {
+                    var p = party.players[j];
+                    var rubIn = p.buys * party.stackRub;
+                    var chipCellHtml = '';
+                    if (!party.unlocked) {
+                        chipCellHtml = '<button type="button" class="locked-chip-btn" data-action="locked">🔒</button>';
+                    } else {
+                        var isFilled = (p.chips !== null && p.chips !== '' && !isNaN(p.chips));
+                        var valStr = isFilled ? p.chips : '';
+                        var stateClass = isFilled ? 'filled' : 'blinking';
+                        chipCellHtml = '<input type="number" inputmode="numeric" class="unlocked-chip-input ' + stateClass + '" data-pid="' + p.id + '" placeholder="0" value="' + valStr + '">';
+                    }
+                    var disAttr = party.unlocked ? 'disabled' : '';
+                    rows.push(
+                        '<div class="cyber-player-card">' +
+                            '<div class="p-col-name">' + p.name + '</div>' +
+                            '<div class="p-col-bank"><span class="p-bank-rub">' + fmt(rubIn) + ' ₽</span><span class="p-bank-bays">' + p.buys + ' бай</span></div>' +
+                            '<div class="p-col-rebuy">' +
+                                '<button type="button" class="btn-minus-sm" data-pid="' + p.id + '" data-delta="-1" ' + disAttr + '>−</button>' +
+                                '<button type="button" class="btn-rebuy-neon" data-pid="' + p.id + '" data-delta="1" ' + disAttr + '>+1 РЕБАЙ<br>(' + party.stackRub + ' ₽)</button>' +
+                            '</div>' +
+                            '<div class="p-col-chips">' + chipCellHtml + '</div>' +
+                        '</div>'
+                    );
+                }
+                listEl.innerHTML = rows.join('');
+
+                // Привязываем обработчики кнопок внутри списка
+                var minusBtns = listEl.querySelectorAll('.btn-minus-sm');
+                for (var m = 0; m < minusBtns.length; m++) {
+                    minusBtns[m].addEventListener('click', function(ev) {
+                        var pid = ev.currentTarget.getAttribute('data-pid');
+                        changePlayerBuys(pid, -1);
+                    });
+                }
+                var plusBtns = listEl.querySelectorAll('.btn-rebuy-neon');
+                for (var n = 0; n < plusBtns.length; n++) {
+                    plusBtns[n].addEventListener('click', function(ev) {
+                        var pid = ev.currentTarget.getAttribute('data-pid');
+                        changePlayerBuys(pid, 1);
+                    });
+                }
+                var lockedBtns = listEl.querySelectorAll('.locked-chip-btn');
+                for (var l = 0; l < lockedBtns.length; l++) {
+                    lockedBtns[l].addEventListener('click', function() {
+                        showToast('Количество фишек заполняется после завершения партии 🔒');
+                    });
+                }
+                var chipInputs = listEl.querySelectorAll('.unlocked-chip-input');
+                for (var c = 0; c < chipInputs.length; c++) {
+                    chipInputs[c].addEventListener('input', function(ev) {
+                        var pid = ev.target.getAttribute('data-pid');
+                        onChipInput(pid, ev.target.value, ev.target);
+                    });
+                }
+
+                updateCalculateButtonVisibility();
+            }
+
+            function changePlayerBuys(playerId, delta) {
+                if (party.unlocked) return;
+                for (var i = 0; i < party.players.length; i++) {
+                    if (party.players[i].id === playerId) {
+                        if (party.players[i].buys + delta < 1) {
+                            showToast('Минимум 1 стартовый бай');
+                            return;
+                        }
+                        party.players[i].buys += delta;
+                        renderScreen3();
+                        return;
+                    }
+                }
+            }
+
+            function onFinishPartyClick() {
+                if (party.unlocked) {
+                    showToast('Поля фишек уже разблокированы!');
+                    return;
+                }
+                openModal('modalFinishConfirm');
+            }
+
+            function unlockChipsNow() {
+                closeModal('modalFinishConfirm');
+                party.unlocked = true;
+                if (party.timerId) {
+                    clearInterval(party.timerId);
+                    party.timerId = null;
+                }
+                renderScreen3();
+                showToast('Замочки сняты! Введите фишки каждого игрока');
+            }
+
+            function onChipInput(playerId, rawVal, inputEl) {
+                var target = null;
+                for (var i = 0; i < party.players.length; i++) {
+                    if (party.players[i].id === playerId) {
+                        target = party.players[i];
+                        break;
+                    }
+                }
+                if (!target) return;
+                if (!rawVal || rawVal.replace(/^\s+|\s+$/g, '') === '') {
+                    target.chips = null;
+                    if (inputEl) inputEl.className = 'unlocked-chip-input blinking';
+                } else {
+                    var parsed = parseInt(rawVal, 10);
+                    target.chips = isNaN(parsed) ? null : Math.max(0, parsed);
+                    if (inputEl) {
+                        inputEl.className = target.chips !== null ? 'unlocked-chip-input filled' : 'unlocked-chip-input blinking';
+                    }
+                }
+                updateCalculateButtonVisibility();
+            }
+
+            function updateCalculateButtonVisibility() {
+                var wrap = $('calcButtonWrap');
+                if (!party.unlocked) {
+                    wrap.style.display = 'none';
+                    return;
+                }
+                var allEntered = party.players.length > 0;
+                for (var i = 0; i < party.players.length; i++) {
+                    if (party.players[i].chips === null || isNaN(party.players[i].chips)) {
+                        allEntered = false;
+                        break;
+                    }
+                }
+                wrap.style.display = allEntered ? 'block' : 'none';
+            }
+
+            function confirmAddLatePlayer() {
+                var inp = $('inpLatePlayerName');
+                var name = (inp.value && inp.value.trim()) ? inp.value.trim() : ('Игрок ' + (party.players.length + 1));
+                party.players.push({
+                    id: 'p_late_' + (new Date().getTime()),
+                    name: name,
+                    buys: 1,
+                    chips: party.unlocked ? 0 : null
+                });
+                inp.value = '';
+                closeModal('modalAddPlayer');
+                renderScreen3();
+                showToast(name + ' добавлен за стол (+1 бай)');
+            }
+
+            function executeFullReset() {
+                closeModal('modalResetConfirm');
+                if (party.timerId) {
+                    clearInterval(party.timerId);
+                    party.timerId = null;
+                }
+                switchScreen('screen1');
+                renderScreen1();
+                showToast('Партия сброшена');
+            }
+
+            function backToChipEntry() {
+                switchScreen('screen3');
+                renderScreen3();
+            }
+
+            function calculatePartyResults() {
+                var totalBays = 0, actualTotalChips = 0;
+                for (var i = 0; i < party.players.length; i++) {
+                    totalBays += party.players[i].buys;
+                    actualTotalChips += (party.players[i].chips || 0);
+                }
+                var totalBankRub = totalBays * party.stackRub;
+                var expectedTotalChips = totalBays * party.chipsPerBuy;
+                var chipDiff = actualTotalChips - expectedTotalChips;
+                var nominalRubPerChip = party.stackRub / party.chipsPerBuy;
+                var actualRubPerChip = actualTotalChips > 0 ? (totalBankRub / actualTotalChips) : nominalRubPerChip;
+
+                var roundedList = [];
+                for (var j = 0; j < party.players.length; j++) {
+                    var p = party.players[j];
+                    var investedRub = p.buys * party.stackRub;
+                    var chipCount = p.chips || 0;
+                    var payoutRub = actualTotalChips > 0 ? (chipCount * actualRubPerChip) : 0;
+                    var netExact = payoutRub - investedRub;
+                    var rnd = Math.round(netExact);
+                    roundedList.push({
+                        id: p.id, name: p.name, investedRub: investedRub, buys: p.buys, chips: chipCount,
+                        netExact: netExact, rounded: rnd, rem: netExact - rnd
+                    });
+                }
+
+                var sumRounded = 0;
+                for (var k = 0; k < roundedList.length; k++) sumRounded += roundedList[k].rounded;
+                if (sumRounded !== 0 && roundedList.length > 0) {
+                    if (sumRounded > 0) {
+                        roundedList.sort(function(a, b) { return a.rem - b.rem; });
+                        for (var x = 0; x < Math.min(sumRounded, roundedList.length); x++) roundedList[x].rounded -= 1;
+                    } else {
+                        roundedList.sort(function(a, b) { return b.rem - a.rem; });
+                        for (var y = 0; y < Math.min(Math.abs(sumRounded), roundedList.length); y++) roundedList[y].rounded += 1;
+                    }
+                }
+
+                var playersFinal = [];
+                for (var z = 0; z < roundedList.length; z++) {
+                    playersFinal.push({
+                        id: roundedList[z].id, name: roundedList[z].name, investedRub: roundedList[z].investedRub,
+                        buys: roundedList[z].buys, chips: roundedList[z].chips, finalNet: roundedList[z].rounded
+                    });
+                }
+
+                var winners = [], losers = [];
+                for (var w = 0; w < playersFinal.length; w++) {
+                    if (playersFinal[w].finalNet > 0) winners.push({ name: playersFinal[w].name, amt: playersFinal[w].finalNet });
+                    else if (playersFinal[w].finalNet < 0) losers.push({ name: playersFinal[w].name, amt: Math.abs(playersFinal[w].finalNet) });
+                }
+                winners.sort(function(a, b) { return b.amt - a.amt; });
+                losers.sort(function(a, b) { return b.amt - a.amt; });
+
+                var transfers = [], wi = 0, li = 0;
+                while (li < losers.length && wi < winners.length) {
+                    var pay = Math.min(losers[li].amt, winners[wi].amt);
+                    if (pay > 0) transfers.push({ from: losers[li].name, to: winners[wi].name, amount: pay });
+                    losers[li].amt -= pay;
+                    winners[wi].amt -= pay;
+                    if (losers[li].amt === 0) li++;
+                    if (winners[wi].amt === 0) wi++;
+                }
+
+                return {
+                    totalBays: totalBays, totalBankRub: totalBankRub, expectedTotalChips: expectedTotalChips,
+                    actualTotalChips: actualTotalChips, chipDiff: chipDiff, nominalRubPerChip: nominalRubPerChip,
+                    actualRubPerChip: actualRubPerChip, playersFinal: playersFinal, transfers: transfers
+                };
+            }
+
+            function openResultsScreen() {
+                var res = calculatePartyResults();
+                switchScreen('screen4');
+
+                var alertBox = $('discrepancyBox');
+                if (res.chipDiff !== 0) {
+                    alertBox.style.display = 'block';
+                    var diffSign = res.chipDiff > 0 ? '+' : '';
+                    var diffRubEq = Math.round(Math.abs(res.chipDiff) * res.nominalRubPerChip);
+                    var reasonText = res.chipDiff > 0
+                        ? 'На столе оказалось на <strong>' + fmt(res.chipDiff) + ' фишек больше</strong> (эквивалент ~' + fmt(diffRubEq) + ' ₽), чем было выдано за ' + res.totalBays + ' баев.'
+                        : 'На столе <strong>не хватает ' + fmt(Math.abs(res.chipDiff)) + ' фишек</strong> (эквивалент ~' + fmt(diffRubEq) + ' ₽) относительно внесённого банка.';
+                    alertBox.innerHTML = '⚠️ <strong>Внимание: несостыковка фишек (' + diffSign + fmt(res.chipDiff) + ')!</strong><br>• Внесено в банк: <strong>' + fmt(res.totalBankRub) + ' ₽</strong> (' + res.totalBays + ' баев = должно быть <strong>' + fmt(res.expectedTotalChips) + '</strong> фишек).<br>• Фактически введено фишек: <strong>' + fmt(res.actualTotalChips) + '</strong>.<br>• ' + reasonText + '<br>• <em>Расчет выполнен пропорционально (реальный курс: 1 фишка = ' + res.actualRubPerChip.toFixed(2) + ' ₽).</em>';
+                } else {
+                    alertBox.style.display = 'none';
+                }
+
+                var sorted = res.playersFinal.slice().sort(function(a, b) { return b.finalNet - a.finalNet; });
+                var posWinners = [], negLosers = [];
+                for (var i = 0; i < sorted.length; i++) {
+                    if (sorted[i].finalNet > 0) posWinners.push(sorted[i]);
+                    else if (sorted[i].finalNet < 0) negLosers.push(sorted[i]);
+                }
+                negLosers.sort(function(a, b) { return a.finalNet - b.finalNet; });
+                var timeStr = formatTime(party.seconds);
+
+                var mvpEl = $('mvpMainText');
+                if (posWinners.length > 0) mvpEl.innerHTML = posWinners[0].name + ' <span class="mvp-profit-highlight">+' + fmt(posWinners[0].finalNet) + ' ₽</span> | Время: ' + timeStr;
+                else mvpEl.innerHTML = 'Все при своих | Время: ' + timeStr;
+
+                var top3El = $('top3WinnersList');
+                var top3 = posWinners.slice(0, 3);
+                if (top3.length === 0) {
+                    top3El.innerHTML = '<div style="font-size:12px; color:#94a3b8;">Нет игроков в плюсе</div>';
+                } else {
+                    var wHtml = [];
+                    for (var w = 0; w < top3.length; w++) {
+                        wHtml.push('<div class="dash-row"><span style="color:#ffffff;">' + (w + 1) + '. ' + top3[w].name + '</span><span style="color:#00ff9d;">+' + fmt(top3[w].finalNet) + ' ₽</span></div>');
+                    }
+                    top3El.innerHTML = wHtml.join('');
+                }
+
+                var losersEl = $('losersList');
+                if (negLosers.length === 0) {
+                    losersEl.innerHTML = '<div style="font-size:12px; color:#94a3b8;">Никто не проиграл</div>';
+                } else {
+                    var lHtml = [];
+                    for (var l = 0; l < negLosers.length; l++) {
+                        lHtml.push('<div class="dash-row"><span style="color:#ffffff;">' + negLosers[l].name + '</span><span style="color:#ff4757;">' + fmt(negLosers[l].finalNet) + ' ₽</span></div>');
+                    }
+                    losersEl.innerHTML = lHtml.join('');
+                }
+
+                var transEl = $('transfersContainer');
+                if (res.transfers.length === 0) {
+                    transEl.innerHTML = '<div style="text-align:center; color:#00ff9d; font-weight:800; padding:10px;">Никто никому не должен!</div>';
+                } else {
+                    var tHtml = [];
+                    for (var t = 0; t < res.transfers.length; t++) {
+                        var tr = res.transfers[t];
+                        var key = tr.from + '->' + tr.to;
+                        var isDone = !!party.paidMap[key];
+                        tHtml.push('<div class="transfer-pill ' + (isDone ? 'done' : '') + '" data-tkey="' + key + '"><div style="font-size:16px; font-weight:800;"><span style="color:#ffffff;">' + tr.from + '</span><span style="color:#00f2fe; margin:0 8px;">➔</span><span style="color:#ffffff;">' + tr.to + '</span></div><div style="font-size:18px; font-weight:900; color:#ffffff;">' + fmt(tr.amount) + ' ₽</div></div>');
+                    }
+                    transEl.innerHTML = tHtml.join('');
+                    var pills = transEl.querySelectorAll('.transfer-pill');
+                    for (var pIdx = 0; pIdx < pills.length; pIdx++) {
+                        pills[pIdx].addEventListener('click', function(ev) {
+                            var k = ev.currentTarget.getAttribute('data-tkey');
+                            party.paidMap[k] = !party.paidMap[k];
+                            openResultsScreen();
+                        });
+                    }
+                }
+            }
+
+            function fallbackCopyText(text) {
+                var ta = document.createElement('textarea');
+                ta.value = text;
+                ta.setAttribute('readonly', '');
+                ta.style.position = 'fixed';
+                ta.style.top = '0';
+                ta.style.left = '0';
+                ta.style.opacity = '0.01';
+                document.body.appendChild(ta);
+                ta.focus();
+                ta.select();
+                try { ta.setSelectionRange(0, 999999); } catch (e) {}
+                try {
+                    var ok = document.execCommand('copy');
+                    showToast(ok ? 'Отчёт скопирован в буфер обмена!' : 'Не удалось скопировать');
+                } catch (e) { showToast('Не удалось скопировать'); }
+                document.body.removeChild(ta);
+            }
+
+            function copyReport() {
+                var res = calculatePartyResults();
+                var sorted = res.playersFinal.slice().sort(function(a, b) { return b.finalNet - a.finalNet; });
+                var posWinners = [], negLosers = [];
+                for (var i = 0; i < sorted.length; i++) {
+                    if (sorted[i].finalNet > 0) posWinners.push(sorted[i]);
+                    else if (sorted[i].finalNet < 0) negLosers.push(sorted[i]);
+                }
+                negLosers.sort(function(a, b) { return a.finalNet - b.finalNet; });
+                var timeStr = formatTime(party.seconds);
+                var lines = [
+                    '♠️ POKER DEBT — ИТОГИ ВЕЧЕРА ♠️',
+                    '⏱ Время игры: ' + timeStr,
+                    '💰 Банк: ' + fmt(res.totalBankRub) + ' ₽ (' + res.totalBays + ' баев)',
+                    '🪙 Фишек: ' + fmt(res.actualTotalChips) + ' из ' + fmt(res.expectedTotalChips)
+                ];
+                if (res.chipDiff !== 0) {
+                    var s = res.chipDiff > 0 ? '+' : '';
+                    lines.push('⚠️ Несостыковка фишек: ' + s + fmt(res.chipDiff) + ' (расчет пропорционально: 1 фишка = ' + res.actualRubPerChip.toFixed(2) + ' ₽)');
+                }
+                if (posWinners.length > 0) lines.push('👑 MVP ВЕЧЕРА: ' + posWinners[0].name + ' (+' + fmt(posWinners[0].finalNet) + ' ₽)');
+                lines.push('', '🟢 ТОП ЛИДЕРОВ:');
+                for (var w = 0; w < posWinners.length; w++) lines.push((w + 1) + '. ' + posWinners[w].name + ': +' + fmt(posWinners[w].finalNet) + ' ₽');
+                lines.push('', '🔴 В МИНУСЕ (ПРОИГРАЛИ):');
+                for (var l = 0; l < negLosers.length; l++) lines.push('• ' + negLosers[l].name + ': ' + fmt(negLosers[l].finalNet) + ' ₽');
+                lines.push('', '💸 КТО КОМУ ПЕРЕВОДИТ:');
+                for (var t = 0; t < res.transfers.length; t++) lines.push('• ' + res.transfers[t].from + ' ➔ ' + res.transfers[t].to + ': ' + fmt(res.transfers[t].amount) + ' ₽');
+                var reportText = lines.join('\n');
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(reportText).then(function() {
+                        showToast('Отчёт скопирован в буфер обмена!');
+                    }, function() { fallbackCopyText(reportText); });
+                } else { fallbackCopyText(reportText); }
+            }
+
+            function downloadSelfHtml() {
+                try {
+                    var htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+                    var blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+                    var url = URL.createObjectURL(blob);
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'POKER_DEBT.html';
+                    document.body.appendChild(a);
+                    a.click();
+                    setTimeout(function() {
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    }, 200);
+                    showToast('Файл POKER_DEBT.html сохранён в Загрузки!');
+                } catch (e) {
+                    showToast('Не удалось скачать файл');
+                }
+            }
+
+            function bindStaticEvents() {
+                $('btnDownloadHtml').addEventListener('click', downloadSelfHtml);
+                $('btnResetDefaults').addEventListener('click', resetSetupDefaults);
+                $('btnStackMinus').addEventListener('click', function() { updateSetup('stackRub', -50); });
+                $('btnStackPlus').addEventListener('click', function() { updateSetup('stackRub', 50); });
+                $('btnChipsMinus').addEventListener('click', function() { updateSetup('chipsPerBuy', -50); });
+                $('btnChipsPlus').addEventListener('click', function() { updateSetup('chipsPerBuy', 50); });
+                $('btnPlayersMinus').addEventListener('click', function() { updateSetup('playerCount', -1); });
+                $('btnPlayersPlus').addEventListener('click', function() { updateSetup('playerCount', 1); });
+                $('btnStartGame').addEventListener('click', handleStartClick);
+
+                $('btnOpenResetGame').addEventListener('click', function() { openModal('modalResetConfirm'); });
+                $('btnOpenResetResults').addEventListener('click', function() { openModal('modalResetConfirm'); });
+                $('btnFinishParty').addEventListener('click', onFinishPartyClick);
+                $('btnOpenAddPlayer').addEventListener('click', function() { openModal('modalAddPlayer'); });
+                $('btnCalculateResults').addEventListener('click', openResultsScreen);
+                $('btnBackToChips').addEventListener('click', backToChipEntry);
+                $('btnCopyReport').addEventListener('click', copyReport);
+
+                $('btnModalInfoBack').addEventListener('click', function() { closeModal('modalInfoStart'); });
+                $('btnModalInfoStart').addEventListener('click', confirmInfoAndStart);
+                $('btnContinueGame').addEventListener('click', function() { closeModal('modalFinishConfirm'); });
+                $('btnConfirmUnlockChips').addEventListener('click', unlockChipsNow);
+                $('btnCancelAddPlayer').addEventListener('click', function() { closeModal('modalAddPlayer'); });
+                $('btnConfirmAddPlayer').addEventListener('click', confirmAddLatePlayer);
+                $('btnCancelReset').addEventListener('click', function() { closeModal('modalResetConfirm'); });
+                $('btnConfirmReset').addEventListener('click', executeFullReset);
+            }
+
+            bindStaticEvents();
+            renderScreen1();
+        })();
+    </script>
+
+
+</body></html>
